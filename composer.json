@@ -1,5 +1,5 @@
 {
-    "name": "cog/stupidmq",
+    "name": "cog/stupidmqbundle",
     "type": "library",
     "description": "stupid message queue bundle for sf2",
     "keywords": ["message queue"],
