@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="cog_stupidmq.adapter.class">CoG\StupidMQBundle\Doctrine\Adapter\AdapterDoctrine</parameter>
+        <parameter key="cog_stupidmq.channel.class">CoG\StupidMQ\Channel</parameter>
+        <parameter key="cog_stupidmq.queue.class">CoG\StupidMQ\Queue</parameter>
+        <parameter key="cog_stupidmq.runner.class">CoG\StupidMQBundle\Runner\SimpleRunner</parameter>
+        <parameter key="cog_stupidmq.watcher.class">CoG\StupidMQBundle\Watcher\ProcessWatcher</parameter>
+        <parameter key="cog_stupidmq.runner.command">php app/console cog:stupidmq:run %%s %%s</parameter>
+        <parameter key="cog_stupidmq.logger.cli.class">CoG\StupidMQBundle\Logger\CliOutputHandler</parameter>
+    </parameters>
+
+    <services>
+        <service id="cog_stupidmq.adapter" class="%cog_stupidmq.adapter.class%">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+            <argument>cog_stupidmq</argument>
+        </service>
+        <service id="cog_stupidmq.channel" class="%cog_stupidmq.channel.class%">
+            <argument type="service" id="cog_stupidmq.adapter" />
+        </service>
+        <service id="cog_stupidmq.runner" class="%cog_stupidmq.runner.class%">
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+            <tag name="monolog.logger" channel="cog_cli_output" />
+        </service>
+        <service id="cog_stupidmq.watcher" class="%cog_stupidmq.watcher.class%">
+            <argument>%kernel.root_dir%</argument>
+            <argument>%cog_stupidmq.runner.command%</argument>
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+            <tag name="monolog.logger" channel="cog_cli_output" />
+        </service>
+        <service id="cog_stupidmq.cli.handler" class="%cog_stupidmq.logger.cli.class%">
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="cog_cli_output" />
+        </service>
+    </services>
+</container>
