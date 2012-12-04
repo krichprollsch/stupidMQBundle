@@ -29,12 +29,6 @@
     "autoload": {
         "psr-0": { "CoG\\StupidMQBundle": "" }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@gitlab.hal:stupidmessagequeue"
-        }
-    ],
     "target-dir": "CoG/StupidMQBundle"
 }
 
