@@ -45,7 +45,7 @@ class SimpleRunner extends AbstractLogger implements RunnerInterface
         if( count($workers) > 0) {
             $message = $queue->get($message_id);
             foreach( $workers as $worker ) {
-                $this->log(sprintf('worker processing message id %s in queue %s', $message_id, $queue_name));
+                $this->log(sprintf('Worker processing message id %s in queue %s', $message_id, $queue_name));
                 /* @var $worker WorkerInterface */
                 $worker->execute( $message->getContent() );
             }

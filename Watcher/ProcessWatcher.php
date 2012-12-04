@@ -82,6 +82,7 @@ class ProcessWatcher extends AbstractLogger implements WatcherInterface
     protected function consume( QueueInterface $queue ) {
         try {
             $message = $queue->consume();
+            $this->log(sprintf('Run message %s found in queue %s', $message->getId(), $queue->getName()), 'debug');
             $process = new Process(
                 sprintf(
                     $this->command,
