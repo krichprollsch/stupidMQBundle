@@ -8,6 +8,11 @@
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
+
+        <indexes>
+            <index name="queue" columns="queue,state"/>
+        </indexes>
+
         <field name="queue" column="queue" type="string" length="255" />
         <field name="content" column="content" type="text" />
         <field name="state" column="state" type="string" length="8" />
