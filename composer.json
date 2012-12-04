@@ -14,7 +14,10 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "2.1.*",
-		"cog/stupidmq": "dev-master"
+        "symfony/console": "2.1.*",
+        "symfony/process": "2.1.*",
+        "monolog/monolog": "1.*",
+		    "cog/stupidmq": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
@@ -22,5 +25,12 @@
     "autoload": {
         "psr-0": { "CoG\\StupidMQBundle": "" }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@gitlab.hal:stupidmessagequeue"
+        }
+    ],
     "target-dir": "CoG/StupidMQBundle"
 }
+
