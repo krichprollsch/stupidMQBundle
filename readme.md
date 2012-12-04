@@ -35,45 +35,49 @@ Edit your `services.xml` to add your own queues :
 Adding message into the queue
 -----------------------------
 
-    $queue = $this->getContainer()->get('my.queue');
-    $queue->publish('This is a message !');
+```php
+$queue = $this->getContainer()->get('my.queue');
+$queue->publish('This is a message !');
+```
 
 Adding a worker
 ---------------
 
 To consume messages, you hav to create un worker class like this :
 
-    <?php
+```php
+<?php
 
-    namespace My\Bundle\Worker;
+namespace My\Bundle\Worker;
 
-    use CoG\StupidMQBundle\Worker\WorkerInterface;
+use CoG\StupidMQBundle\Worker\WorkerInterface;
 
-    class MyWorker implements WorkerInterface
-    {
-        public function execute( $message ) {
-            var_dump($message);
-            return true;
-        }
-
-        public function getSubscribedQueues() {
-            return array(
-                'my.queue'
-            );
-        }
-
-        public function getName() {
-            return 'my.worker';
-        }
+class MyWorker implements WorkerInterface
+{
+    public function execute( $message ) {
+        var_dump($message);
+        return true;
     }
+
+    public function getSubscribedQueues() {
+        return array(
+            'my.queue'
+        );
+    }
+
+    public function getName() {
+        return 'my.worker';
+    }
+}
+```
 
 Then you should register your worker, edit your `services.xml` :
 
-        <!-- Message Worker -->
-        <service id="my.worker" class="My\Bundle\Worker\MyWorker">
-            <argument type="service" id="my.queue" />
-            <tag name="cog_stupidmq.worker"/>
-        </service>
+    <!-- Message Worker -->
+    <service id="my.worker" class="My\Bundle\Worker\MyWorker">
+        <argument type="service" id="my.queue" />
+        <tag name="cog_stupidmq.worker"/>
+    </service>
 
 
 Running command
