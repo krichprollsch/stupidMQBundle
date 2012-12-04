@@ -16,7 +16,9 @@ use CoG\StupidMQ\Queue\QueueInterface;
  */
 interface WatcherInterface
 {
+    const UNLIMITED = 0;
+
     public function addQueue( QueueInterface $queue );
 
-    public function watch();
+    public function watch(array $opt = array());
 }

@@ -28,6 +28,8 @@ class WatchQueueCommand extends AbstractCommand
         $this
             ->setName('cog:stupidmq:watch')
             ->setDescription('Watcher to consume messages')
+            ->addOption( 'max-message', 'm', InputOption::VALUE_OPTIONAL, 'Max number of message treated before stop (0 for unlimited)', 0 )
+            ->addOption( 'max-lifetime', 'l', InputOption::VALUE_OPTIONAL, 'Max lifetime before stop (0 for unlimited)', 0 )
         ;
     }
 
@@ -35,6 +37,9 @@ class WatchQueueCommand extends AbstractCommand
     {
         $this->setOutputHandler($output);
         $watcher = $this->getContainer()->get('cog_stupidmq.watcher');
-        $watcher->watch();
+        $watcher->watch(array(
+            'max-message' => $input->getOption('max-message'),
+            'max-lifetime' => $input->getOption('max-lifetime'),
+        ));
     }
 }

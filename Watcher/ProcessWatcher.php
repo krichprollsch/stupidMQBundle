@@ -33,19 +33,50 @@ class ProcessWatcher extends AbstractLogger implements WatcherInterface
         $this->queues[$queue->getName()] = $queue;
     }
 
-    public function watch() {
+    public function watch(array $opt = array()) {
+        $opt = $this->getOptions($opt);
+
+        $opt['lifetime-start'] = time();
+        $opt['message-treated'] = 0;
+
         do {
             $wait = true;
             foreach( $this->queues as $queue ) {
                 if( $this->consume( $queue ) ) {
                     $wait = false;
+                    $opt['message-treated']++;
                 }
+            }
+
+            if($this->shouldStop($opt)) {
+                break;
             }
 
             if( $wait ) {
                 sleep(1);
             }
         } while( true );
+    }
+
+    protected function shouldStop( array $opt ) {
+        if(
+            $opt['max-message'] != self::UNLIMITED &&
+            isset($opt['message-treated']) &&
+            $opt['message-treated'] >= $opt['max-message']
+        ) {
+
+            return true;
+        }
+
+        if(
+            $opt['max-lifetime'] != self::UNLIMITED &&
+            (time()-$opt['lifetime-start']) >= $opt['max-lifetime']
+        ) {
+
+            return true;
+        }
+
+        return false;
     }
 
     protected function consume( QueueInterface $queue ) {
@@ -72,6 +103,17 @@ class ProcessWatcher extends AbstractLogger implements WatcherInterface
             $this->log(sprintf('No message found in queue %s', $queue->getName()), 'debug');
             return false;
         }
+    }
+
+    protected function getOptions(array $opt=array()) {
+        return array_merge( $this->defaultOptions(), $opt );
+    }
+
+    protected function defaultOptions() {
+        return array(
+            'max-leftime' => self::UNLIMITED,
+            'max-message' => self::UNLIMITED
+        );
     }
 
 }
