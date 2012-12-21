@@ -70,11 +70,12 @@ class ProcessWatcher extends AbstractWatcher
                 )
             );
 
-            $process->run(function ($type, $buffer) {
+            $logger = $this;
+            $process->run(function ($type, $buffer) use ($logger) {
                 if ('err' === $type) {
-                    $this->log($buffer, 'err');
+                    $logger->log($buffer, 'err');
                 } else {
-                    $this->log($buffer);
+                    $logger->log($buffer);
                 }
             });
 

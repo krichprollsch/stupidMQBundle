@@ -12,15 +12,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Monolog\Handler\AbstractProcessingHandler;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * CoGSutpidMQCommand
  *
  * @author pierre
  */
-class WatchQueueCommand extends AbstractCommand
+class WatchQueueCommand extends ContainerAwareCommand
 {
 
     protected function configure()
@@ -36,7 +34,6 @@ class WatchQueueCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setOutputHandler($output);
         $watcher = $this->getContainer()->get('cog_stupidmq.watcher');
         $watcher->watch(array(
             'max-message' => $input->getOption('max-message'),

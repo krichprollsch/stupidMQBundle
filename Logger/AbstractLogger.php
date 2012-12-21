@@ -8,18 +8,27 @@
 namespace CoG\StupidMQBundle\Logger;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 /**
  * AbstractLogger
  *
  * @author pierre
  */
-class AbstractLogger
+class AbstractLogger implements Logger
 {
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
     /**
-     * @param \Symfony\Component\HttpKernel\Log\LoggerInterface $logger
+     * @var ConsoleOutputInterface
+     */
+    protected $console;
+
+    /**
+     * @param LoggerInterface $logger
      * @return void
      */
     public function setLogger( LoggerInterface $logger ) {
@@ -33,6 +42,21 @@ class AbstractLogger
         return $this->logger;
     }
 
+    /**
+     * @param ConsoleOutputInterface $console
+     * @return void
+     */
+    public function setConsoleOutput( ConsoleOutputInterface $console ) {
+        $this->console = $console;
+    }
+
+    /**
+     * @return ConsoleOutputInterface
+     */
+    public function getConsoleOutput() {
+        return $this->console;
+    }
+
     public function log( $message, $level='info', $context=array() ) {
         if($this->getLogger()) {
             if(method_exists($this->getLogger(), $level)) {
@@ -40,6 +64,10 @@ class AbstractLogger
             } else {
                 throw new \InvalidArgumentException(sprintf('Level %s is not a valid log level', $level));
             }
+        }
+
+        if($this->getConsoleOutput()) {
+            $this->getConsoleOutput()->writeln(trim($message));
         }
     }
 }

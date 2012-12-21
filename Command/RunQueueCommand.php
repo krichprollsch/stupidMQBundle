@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author pierre
  */
-class RunQueueCommand extends AbstractCommand
+class RunQueueCommand extends ContainerAwareCommand
 {
 
     protected function configure()
@@ -33,8 +33,6 @@ class RunQueueCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getContainer()->get('cog_stupidmq.cli.handler')->prepareFormatter(true);
-        $this->setOutputHandler($output);
         $runner = $this->getContainer()->get('cog_stupidmq.runner');
         $runner->run( $input->getArgument('queue'), $input->getArgument('message-id')  );
     }

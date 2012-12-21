@@ -26,7 +26,9 @@
             <call method="setLogger">
                 <argument type="service" id="logger" />
             </call>
-            <tag name="monolog.logger" channel="cog_cli_output" />
+            <call method="setConsoleOutput">
+                <argument type="service" id="sf.console.output" />
+            </call>
         </service>
         <service id="cog_stupidmq.watcher" class="%cog_stupidmq.watcher.class%">
             <argument>%kernel.root_dir%</argument>
@@ -34,11 +36,9 @@
             <call method="setLogger">
                 <argument type="service" id="logger" />
             </call>
-            <tag name="monolog.logger" channel="cog_cli_output" />
-        </service>
-        <service id="cog_stupidmq.cli.handler" class="%cog_stupidmq.logger.cli.class%">
-            <argument type="service" id="logger" />
-            <tag name="monolog.logger" channel="cog_cli_output" />
+            <call method="setConsoleOutput">
+                <argument type="service" id="sf.console.output" />
+            </call>
         </service>
     </services>
 </container>
