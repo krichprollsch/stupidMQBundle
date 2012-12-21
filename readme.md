@@ -75,7 +75,6 @@ Then you should register your worker, edit your `services.xml` :
 
     <!-- Message Worker -->
     <service id="my.worker" class="My\Bundle\Worker\MyWorker">
-        <argument type="service" id="my.queue" />
         <tag name="cog_stupidmq.worker"/>
     </service>
 
