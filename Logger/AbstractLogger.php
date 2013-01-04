@@ -66,7 +66,7 @@ class AbstractLogger implements Logger
             }
         }
 
-        if($this->getConsoleOutput()) {
+        if($this->getConsoleOutput() && $level != 'debug') {
             $this->getConsoleOutput()->writeln(trim($message));
         }
     }
