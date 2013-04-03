@@ -16,6 +16,7 @@
     </parameters>
 
     <services>
+        <service id="itn.console.output" class="Symfony\Component\Console\Output\ConsoleOutput"></service
         <service id="cog_stupidmq.adapter" class="%cog_stupidmq.adapter.class%">
             <argument type="service" id="doctrine.dbal.default_connection" />
             <argument>cog_stupidmq</argument>
@@ -28,7 +29,7 @@
                 <argument type="service" id="logger" />
             </call>
             <call method="setConsoleOutput">
-                <argument type="service" id="sf.console.output" />
+                <argument type="service" id="cog.console.output" />
             </call>
         </service>
         <service id="cog_stupidmq.watcher" class="%cog_stupidmq.watcher.class%">
@@ -38,7 +39,7 @@
                 <argument type="service" id="logger" />
             </call>
             <call method="setConsoleOutput">
-                <argument type="service" id="sf.console.output" />
+                <argument type="service" id="cog.console.output" />
             </call>
         </service>
         <service id="cog_stupidmq.informer" class="%cog_stupidmq.informer.class%"/>
