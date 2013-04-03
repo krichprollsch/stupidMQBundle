@@ -7,19 +7,17 @@
 
 namespace CoG\StupidMQBundle\Runner;
 
+use CoG\StupidMQBundle\QueueAware\QueueAwareInterface;
 use CoG\StupidMQBundle\Worker\WorkerInterface;
-use CoG\StupidMQ\Queue\QueueInterface;
 
 /**
  * RunnerInterface
  *
  * @author pierre
  */
-interface RunnerInterface
+interface RunnerInterface extends QueueAwareInterface
 {
-    public function addWorker( WorkerInterface $worker );
-
-    public function addQueue( QueueInterface $queue );
+    public function addWorker(WorkerInterface $worker);
 
     public function run($queue_name, $message_id);
 }

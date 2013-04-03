@@ -7,18 +7,16 @@
 
 namespace CoG\StupidMQBundle\Watcher;
 
-use CoG\StupidMQ\Queue\QueueInterface;
+use CoG\StupidMQBundle\QueueAware\QueueAwareInterface;
 
 /**
  * WatcherInterface
  *
  * @author pierre
  */
-interface WatcherInterface
+interface WatcherInterface extends QueueAwareInterface
 {
     const UNLIMITED = 0;
-
-    public function addQueue( QueueInterface $queue );
 
     public function watch(array $opt = array());
 }

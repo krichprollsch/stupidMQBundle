@@ -56,6 +56,13 @@ class MyWorker implements WorkerInterface
 {
     public function execute( $message ) {
         var_dump($message);
+        /* you ca give a feedback using \CoG\StupidMQBundle\Feeback\Feedback */
+        return Feedback::create(
+            MessageInterface::STATE_DONE,
+            'here is my feedback'
+        );
+
+        /* or just return a boolean */
         return true;
     }
 

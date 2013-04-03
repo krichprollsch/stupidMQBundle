@@ -22,6 +22,7 @@ class CoGStupidMQCompilerPass  implements CompilerPassInterface
     const QUEUE_TAG_NAME = 'cog_stupidmq.queue';
     const RUNNER_ID = 'cog_stupidmq.runner';
     const WATCHER_ID = 'cog_stupidmq.watcher';
+    const INFORMER_ID = 'cog_stupidmq.informer';
 
     public function process(ContainerBuilder $container)
     {
@@ -37,15 +38,27 @@ class CoGStupidMQCompilerPass  implements CompilerPassInterface
             return;
         }
 
-
         $watcher = $container->getDefinition(
             self::WATCHER_ID
+        );
+
+        if (!$container->hasDefinition(self::INFORMER_ID)) {
+            return;
+        }
+
+        $informer = $container->getDefinition(
+            self::INFORMER_ID
         );
 
         $queues = $container->findTaggedServiceIds(
             self::QUEUE_TAG_NAME
         );
         foreach ($queues as $id => $attributes) {
+            $informer->addMethodCall(
+                'addQueue',
+                array(new Reference($id))
+            );
+
             $runner->addMethodCall(
                 'addQueue',
                 array(new Reference($id))

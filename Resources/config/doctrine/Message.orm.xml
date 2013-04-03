@@ -15,6 +15,7 @@
 
         <field name="queue" column="queue" type="string" length="255" />
         <field name="content" column="content" type="text" />
+        <field name="feedback" column="feedback" type="text" nullable="true" />
         <field name="state" column="state" type="string" length="8" />
         <field name="createdAt" column="created_at" type="datetime" />
         <field name="updatedAt" column="updated_at" type="datetime" />

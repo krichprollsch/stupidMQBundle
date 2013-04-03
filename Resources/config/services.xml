@@ -10,6 +10,7 @@
         <parameter key="cog_stupidmq.queue.class">CoG\StupidMQ\Queue</parameter>
         <parameter key="cog_stupidmq.runner.class">CoG\StupidMQBundle\Runner\SimpleRunner</parameter>
         <parameter key="cog_stupidmq.watcher.class">CoG\StupidMQBundle\Watcher\ProcessWatcher</parameter>
+        <parameter key="cog_stupidmq.informer.class">CoG\StupidMQBundle\Informer\Informer</parameter>
         <parameter key="cog_stupidmq.runner.command">php app/console cog:stupidmq:run %%s %%s</parameter>
         <parameter key="cog_stupidmq.logger.cli.class">CoG\StupidMQBundle\Logger\CliOutputHandler</parameter>
     </parameters>
@@ -40,5 +41,6 @@
                 <argument type="service" id="sf.console.output" />
             </call>
         </service>
+        <service id="cog_stupidmq.informer" class="%cog_stupidmq.informer.class%"/>
     </services>
 </container>
