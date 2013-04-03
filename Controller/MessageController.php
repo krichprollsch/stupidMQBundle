@@ -12,9 +12,12 @@ class MessageController extends ContainerAware
 {
     public function cgetAction(Request $request, $queue)
     {
+        if (is_null($request->get('ids'))) {
+            throw new \InvalidArgumentException('Request needs ids parameter');
+        }
+
         try {
             $informer = $this->container->get('cog_stupidmq.informer');
-
             $messages = $informer->getMessages($queue, $request->get('ids'));
             $jsonContent = $this->getSerializer()->serialize($messages, 'json');
 
