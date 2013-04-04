@@ -50,18 +50,6 @@ class SimpleRunner extends AbstractLogger implements RunnerInterface
         if (count($workers) > 0) {
             $message = $queue->get($message_id);
             foreach ($workers as $worker) {
-
-                set_error_handler(
-                    function ($errno, $errstr, $errfile, $errline) use ($queue, $message_id) {
-                        $queue->feedback(
-                            $message_id,
-                            MessageInterface::STATE_ERROR,
-                            $errstr
-                        );
-                        return false;
-                    }
-                );
-
                 $this->log(
                     sprintf(
                         'Worker %s start processing message id %s in queue %s',
