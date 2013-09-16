@@ -38,7 +38,7 @@ class WatchQueueCommand extends ContainerAwareCommand
         $watcher->watch(array(
             'max-message' => $input->getOption('max-message'),
             'max-lifetime' => $input->getOption('max-lifetime'),
-            'sleep' => $input->getOption('sleep'),
+            'sleep' => $input->getOption('sleep')
         ));
     }
 }
