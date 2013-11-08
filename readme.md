@@ -8,7 +8,7 @@ Installation
 
 Add requirement into you `composer.json` :
 
-    "cog/stupidmqbundle":"dev-master"
+    "cog/stupidmqbundle":"2.2.*"
 
 Then enable the bundle into `app/AppKernel.php` :
 
