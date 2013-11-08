@@ -7,8 +7,8 @@
 
 namespace CoG\StupidMQBundle\Logger;
 
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 /**
  * AbstractLogger
@@ -23,7 +23,7 @@ class AbstractLogger implements Logger
     protected $logger;
 
     /**
-     * @var ConsoleOutputInterface
+     * @var ConsoleOutput
      */
     protected $console;
 
@@ -43,15 +43,15 @@ class AbstractLogger implements Logger
     }
 
     /**
-     * @param ConsoleOutputInterface $console
+     * @param ConsoleOutput $console
      * @return void
      */
-    public function setConsoleOutput( ConsoleOutputInterface $console ) {
+    public function setConsoleOutput( ConsoleOutput $console ) {
         $this->console = $console;
     }
 
     /**
-     * @return ConsoleOutputInterface
+     * @return ConsoleOutput
      */
     public function getConsoleOutput() {
         return $this->console;
