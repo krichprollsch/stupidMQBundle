@@ -69,7 +69,7 @@ class ProcessWatcher extends AbstractWatcher
                     $message->getId()
                 )
             );
-            $process->setTimeout(0);
+            $process->setTimeout(3600);
 
             $logger = $this;
             $process->run(function ($type, $buffer) use ($logger) {
