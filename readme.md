@@ -39,11 +39,11 @@ Adding message into the queue
 $queue = $this->getContainer()->get('my.queue');
 $queue->publish('This is a message !');
 ```
-
+un
 Adding a worker
 ---------------
 
-To consume messages, you hav to create un worker class like this :
+To consume messages, you have to create a worker class like this :
 
 ```php
 <?php
