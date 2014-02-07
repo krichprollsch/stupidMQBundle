@@ -11,7 +11,6 @@ use CoG\StupidMQ\Queue\QueueInterface;
 use CoG\StupidMQ\Exception\NoResultException;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
-use CoG\StupidMQBundle\Logger\AbstractLogger;
 
 /**
  * LoopWatcher

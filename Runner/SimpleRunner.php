@@ -11,7 +11,6 @@ use CoG\StupidMQ\Queue\QueueInterface;
 use CoG\StupidMQ\Message\MessageInterface;
 use CoG\StupidMQBundle\Feeback\Feedback;
 use CoG\StupidMQBundle\Worker\WorkerInterface;
-use CoG\StupidMQ\Exception\NotFoundException;
 use CoG\StupidMQBundle\Logger\AbstractLogger;
 
 /**
