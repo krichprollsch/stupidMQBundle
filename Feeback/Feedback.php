@@ -54,7 +54,7 @@ class Feedback
                 return;
         }
 
-        throw new UnexpectedValueException('Bad value for state');
+        throw new \UnexpectedValueException('Bad value for state');
     }
 
     public function getMessage()
