@@ -39,7 +39,7 @@ Adding message into the queue
 $queue = $this->getContainer()->get('my.queue');
 $queue->publish('This is a message !');
 ```
-un
+
 Adding a worker
 ---------------
 
