@@ -9,6 +9,7 @@ namespace CoG\StupidMQBundle\Watcher;
 
 use CoG\StupidMQ\Queue\QueueInterface;
 use CoG\StupidMQ\Exception\NoResultException;
+use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 use CoG\StupidMQBundle\Logger\AbstractLogger;
 
@@ -42,7 +43,7 @@ class ProcessWatcher extends AbstractWatcher
         do {
             $wait = true;
             foreach( $this->queues as $queue ) {
-                if( $this->consume( $queue ) ) {
+                if( $this->consume( $queue, $opt ) ) {
                     $wait = false;
                     $opt['message-treated']++;
                 }
@@ -58,7 +59,7 @@ class ProcessWatcher extends AbstractWatcher
         } while( true );
     }
 
-    protected function consume( QueueInterface $queue ) {
+    protected function consume( QueueInterface $queue, array $opt ) {
         try {
             $message = $queue->consume();
             $this->log(sprintf('Run message %s found in queue %s', $message->getId(), $queue->getName()), 'info');
@@ -69,7 +70,10 @@ class ProcessWatcher extends AbstractWatcher
                     $message->getId()
                 )
             );
-            $process->setTimeout(3600);
+
+            $process->setTimeout(
+                $opt['process-timeout']
+            );
 
             $logger = $this;
             $process->run(function ($type, $buffer) use ($logger) {
@@ -80,6 +84,9 @@ class ProcessWatcher extends AbstractWatcher
                 }
             });
 
+            return true;
+        } catch ( RuntimeException $ex ) {
+            $this->log(sprintf('Timeout in queue %s', $queue->getName()), 'err');
             return true;
         } catch ( NoResultException $ex ) {
             $this->log(sprintf('No message found in queue %s', $queue->getName()), 'debug');
