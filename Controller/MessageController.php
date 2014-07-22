@@ -2,6 +2,7 @@
 
 namespace CoG\StupidMQBundle\Controller;
 
+use CoG\StupidMQ\Message\MessageInterface;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,9 +28,77 @@ class MessageController extends ContainerAware
         }
     }
 
+    public function displayAction(Request $request, $queue)
+    {
+        try {
+            $informer = $this->container->get('cog_stupidmq.informer');
+            $first = $request->query->get('first') ? : 1;
+            $limit = $request->query->get('limit') ? : 10;
+            $messages = $informer->getByInterval($queue, $first, $limit);
+
+            $this->formatContent($messages);
+
+            $previousUrl = $first - $limit < 0 ? null : $this->container->get('router')->generate(
+                'cog_stupidmq_display',
+                array(
+                    'queue' => $queue,
+                    'first' =>  $first - $limit,
+                    'limit' => $limit
+                )
+            );
+
+            $nextUrl = $this->container->get('router')->generate(
+                'cog_stupidmq_display',
+                array(
+                    'queue' => $queue,
+                    'first' => $first + $limit,
+                    'limit' => $limit
+                )
+            );
+
+            $queueNames = array_keys($informer->getQueues());
+
+            return $this->container->get('templating')->renderResponse(
+                'CoGStupidMQBundle:Message:display.html.twig',
+                array(
+                    'messages' => $messages,
+                    'previousUrl' => $previousUrl,
+                    'nextUrl' => $nextUrl,
+                    'queueNames' => $queueNames
+                )
+            );
+        } catch (\InvalidArgumentException $ex) {
+            throw new NotFoundHttpException($ex->getMessage(), $ex);
+        }
+    }
+
     protected function getSerializer()
     {
         return SerializerBuilder::create()
             ->build();
+    }
+
+    private function formatContent(array &$messages)
+    {
+        foreach($messages as $message)
+        {
+            switch($message->getState()) {
+                case MessageInterface::STATE_NEW:
+                    $message->stateClass = 'info';
+                    break;
+                case MessageInterface::STATE_PENDING:
+                case MessageInterface::STATE_RUNNING:
+                case MessageInterface::STATE_CANCELED:
+                    $message->stateClass = 'warning';
+                    break;
+                case MessageInterface::STATE_DONE:
+                    $message->stateClass = 'success';
+                    break;
+                case MessageInterface::STATE_ERROR:
+                    $message->stateClass = 'danger';
+                    break;
+            }
+            $message->decodedContent = var_export(json_decode($message->getContent(), true) ? : unserialize($message->getContent()), true);
+        }
     }
 }
