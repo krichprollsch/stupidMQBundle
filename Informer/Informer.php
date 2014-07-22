@@ -19,4 +19,21 @@ class Informer extends QueueAwareAbstract implements InformerInterface
         $queue = $this->getQueue($queue_name);
         return $queue->findAll($ids);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getByInterval($queue_name, $first, $limit)
+    {
+        $queue = $this->getQueue($queue_name);
+        return $queue->findByInterval($first, $limit);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQueues()
+    {
+        return $this->queues;
+    }
 }
