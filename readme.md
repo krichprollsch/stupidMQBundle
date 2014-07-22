@@ -20,6 +20,10 @@ Optionnaly, if you are using Doctrine Orm, you can use it to easily install mess
 
 This command will create for you a new table `cog_stupidmq` to store your messages.
 
+Add knp-time defaults to your `config.yml` :
+
+    knp_time: ~
+
 Creating a message queue
 -------------------------
 
