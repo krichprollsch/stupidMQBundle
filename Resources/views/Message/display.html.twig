@@ -39,7 +39,7 @@
 
             {% for message in messages %}
 
-                <li class="list-group-item list-group-item-{{ message.stateClass }}">
+                <li class="list-group-item list-group-item-{{ message | state_class }}">
 
                     <div class="title-area">
                         <div class="row">
@@ -47,7 +47,7 @@
                                 #{{ message.id }}
                             </div>
                             <div class="col-sm-1">
-                                <span class="label label-{{ message.stateClass }}">{{ message.state }}</span>
+                                <span class="label label-{{ message | state_class }}">{{ message.state }}</span>
                             </div>
                             <div class="col-sm-5">
                                 {{ message.feedback | slice(0, 40) }}{{ (message.feedback | length) > 40 ? '...' : '' }}
@@ -70,7 +70,7 @@
                         <h4> Feedback : </h4>
                         <code>{{ message.feedback }}</code> <br />
                         <h4> Content : </h4>
-                        <pre> {{ message.decodedContent | colorize | raw }} </pre>
+                        <pre> {{ message | decode_content | colorize | raw }} </pre>
                     </div>
 
                 </li>
