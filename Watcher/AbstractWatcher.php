@@ -27,6 +27,7 @@ abstract class AbstractWatcher extends AbstractLogger implements WatcherInterfac
             'max-message' => self::UNLIMITED,
             'process-timeout' => self::UNLIMITED,
             'sleep' => 1,
+            'max-process' => 2,
         );
     }
 

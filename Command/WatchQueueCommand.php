@@ -29,6 +29,7 @@ class WatchQueueCommand extends ContainerAwareCommand
             ->addOption( 'max-lifetime', 'l', InputOption::VALUE_OPTIONAL, 'Max lifetime before stop (0 for unlimited)', 0 )
             ->addOption( 'sleep', 'w', InputOption::VALUE_OPTIONAL, 'Time of sleeping in case of message found in queues', 1 )
             ->addOption( 'timeout', 't', InputOption::VALUE_OPTIONAL, 'Timeout for sub-processes (0 for unlimited)', 3600 )
+            ->addOption( 'max-process', 'p', InputOption::VALUE_OPTIONAL, 'max number of processes running in parallel', 5 )
         ;
     }
 
@@ -39,7 +40,8 @@ class WatchQueueCommand extends ContainerAwareCommand
             'max-message' => $input->getOption('max-message'),
             'max-lifetime' => $input->getOption('max-lifetime'),
             'sleep' => $input->getOption('sleep'),
-            'process-timeout' => $input->getOption('timeout')
+            'process-timeout' => $input->getOption('timeout'),
+            'max-process' => $input->getOption('max-process')
         ));
     }
 }
