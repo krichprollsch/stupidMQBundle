@@ -83,9 +83,12 @@
 
         </ul>
 
+        {% import 'CoGStupidMQBundle:Message:macros.html.twig' as macros %}
+
+
         <ul class="pager">
-            <li class="previous {{ previousUrl is null ? 'disabled' : '' }}"><a href="{{ previousUrl }}">&larr; Previous</a></li>
-            <li class="next"><a href="{{ nextUrl }}">Next &rarr;</a></li>
+            {{ macros.previousButton(queue, first, limit) }}
+            {{ macros.nextButton(queue, first, limit) }}
         </ul>
 
     </div>

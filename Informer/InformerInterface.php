@@ -17,7 +17,7 @@ interface InformerInterface extends QueueAwareInterface
      * @param $queue_name
      * @return mixed
      */
-    public function getByInterval($queue_name, $first, $limit);
+    public function getMessagesByInterval($queue_name, $first, $limit);
 
     /**
      * @return mixed

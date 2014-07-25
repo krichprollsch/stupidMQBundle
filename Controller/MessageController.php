@@ -34,7 +34,7 @@ class MessageController extends ContainerAware
             $informer = $this->container->get('cog_stupidmq.informer');
             $first = $request->query->get('first') ? : 1;
             $limit = $request->query->get('limit') ? : 10;
-            $messages = $informer->getByInterval($queue, $first, $limit);
+            $messages = $informer->getMessagesByInterval($queue, $first, $limit);
 
             $previousUrl = $first - $limit < 0 ? null : $this->container->get('router')->generate(
                 'cog_stupidmq_display',
@@ -60,9 +60,10 @@ class MessageController extends ContainerAware
                 'CoGStupidMQBundle:Message:display.html.twig',
                 array(
                     'messages' => $messages,
-                    'previousUrl' => $previousUrl,
-                    'nextUrl' => $nextUrl,
-                    'queueNames' => $queueNames
+                    'queueNames' => $queueNames,
+                    'queue' => $queue,
+                    'first' => $first,
+                    'limit' => $limit,
                 )
             );
         } catch (\InvalidArgumentException $ex) {
