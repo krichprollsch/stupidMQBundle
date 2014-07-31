@@ -36,24 +36,6 @@ class MessageController extends ContainerAware
             $limit = $request->query->get('limit') ? : 10;
             $messages = $informer->getMessagesByInterval($queue, $first, $limit);
 
-            $previousUrl = $first - $limit < 0 ? null : $this->container->get('router')->generate(
-                'cog_stupidmq_display',
-                array(
-                    'queue' => $queue,
-                    'first' =>  $first - $limit,
-                    'limit' => $limit
-                )
-            );
-
-            $nextUrl = $this->container->get('router')->generate(
-                'cog_stupidmq_display',
-                array(
-                    'queue' => $queue,
-                    'first' => $first + $limit,
-                    'limit' => $limit
-                )
-            );
-
             $queueNames = array_keys($informer->getQueues());
 
             return $this->container->get('templating')->renderResponse(
