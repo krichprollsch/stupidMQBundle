@@ -10,29 +10,10 @@ class CoGExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('time_duration', array($this, 'timeDurationFilter')),
             new \Twig_SimpleFilter('colorize', array($this, 'colorizeFilter')),
             new \Twig_SimpleFilter('state_class', array($this, 'stateClass')),
             new \Twig_SimpleFilter('decode_content', array($this, 'decodeContent')),
         );
-    }
-
-    public function timeDurationFilter($dateFrom, $dateTo)
-    {
-        $from = new \DateTime($dateFrom);
-        $to = new \DateTime($dateTo);
-        $diff = $from->diff($to);
-        $duration = '';
-
-        if ($diff->h > 0) {
-            $duration .= $diff->h . 'h';
-        }
-        if ($diff->i > 0) {
-            $duration .= $diff->i . 'm';
-        }
-        $duration .= $diff->s . 's';
-
-        return $duration;
     }
 
     public function colorizeFilter($code)

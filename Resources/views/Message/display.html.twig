@@ -53,10 +53,10 @@
                                 {{ message.feedback | slice(0, 40) }}{{ (message.feedback | length) > 40 ? '...' : '' }}
                             </div>
                             <div class="col-sm-2">
-                                <em> <strong> Duration </strong> : {{ message.created_at | time_duration(message.updated_at) }} </em>
+                                <em> <strong> Duration </strong> : {{ message.updated_at }} </em>
                             </div>
                             <div class="col-sm-2">
-                                <em title="{{ message.created_at }}"> <strong> Sent </strong> : {{ time_diff(message.created_at) }} </em>
+                                <em title="{{ message.created_at }}"> <strong> Sent </strong> : {{ message.created_at }} </em>
                             </div>
                             <div class="col-sm-1">
                                 <div class="pull-right">
