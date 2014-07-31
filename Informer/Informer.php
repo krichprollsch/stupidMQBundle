@@ -2,6 +2,7 @@
 
 namespace CoG\StupidMQBundle\Informer;
 
+use CoG\StupidMQ\Message\MessageInterface;
 use CoG\StupidMQBundle\QueueAware\QueueAwareAbstract;
 
 class Informer extends QueueAwareAbstract implements InformerInterface
@@ -35,5 +36,23 @@ class Informer extends QueueAwareAbstract implements InformerInterface
     public function getQueues()
     {
         return $this->queues;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function publish($queue_name, $content)
+    {
+        $queue = $this->getQueue($queue_name);
+        return $queue->publish($content);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function get($queue_name, $id)
+    {
+        $queue = $this->getQueue($queue_name);
+        return $queue->get($id);
     }
 }

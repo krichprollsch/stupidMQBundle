@@ -18,7 +18,8 @@
         "symfony/process": "2.4.*",
         "jms/serializer": "0.13.*",
 		"cog/stupidmq": "1.0.*",
-        "knplabs/knp-time-bundle": "1.*"
+        "knplabs/knp-time-bundle": "1.*",
+        "friendsofsymfony/jsrouting-bundle": "1.*"
     },
     "suggest": {
         "doctrine/orm": "Doctrine integration of bundle using Mysql Adapter to store messages"

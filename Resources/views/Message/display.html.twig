@@ -67,8 +67,20 @@
                     </div>
 
                     <div class="content-area">
-                        <h4> Feedback : </h4>
-                        <code>{{ message.feedback }}</code> <br />
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <h4> Feedback : </h4>
+                                <code>{{ message.feedback }}</code> <br />
+                            </div>
+
+                            {% if message.state == 'error' %}
+                                <div class="col-xs-4">
+                                    <br />
+                                    <button type="button" class="btn btn-danger pull-right duplicateMessage" id="{{ message.id }}">Duplicate</button>
+                                </div>
+                            {% endif %}
+                        </div>
+
                         <h4> Content : </h4>
                         <pre> {{ message | decode_content | colorize | raw }} </pre>
                     </div>
@@ -96,6 +108,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="{{ asset('bundles/cogstupidmq/js/main.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 
 </body>
 </html>

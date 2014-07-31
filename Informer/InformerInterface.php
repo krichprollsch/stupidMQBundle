@@ -2,6 +2,7 @@
 
 namespace CoG\StupidMQBundle\Informer;
 
+use CoG\StupidMQ\Message\MessageInterface;
 use CoG\StupidMQBundle\QueueAware\QueueAwareInterface;
 
 interface InformerInterface extends QueueAwareInterface
@@ -23,4 +24,19 @@ interface InformerInterface extends QueueAwareInterface
      * @return mixed
      */
     public function getQueues();
+
+    /**
+     * @param $queue_name
+     * @param string $content
+     * @return MessageInterface
+     */
+    public function publish($queue_name, $content);
+
+    /**
+     * @param $queue_name
+     * @param $id int id
+     * @return MessageInterface
+     * @throw NotFoundException
+     */
+    public function get($queue_name, $id);
 }
