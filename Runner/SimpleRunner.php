@@ -9,6 +9,8 @@ namespace CoG\StupidMQBundle\Runner;
 
 use CoG\StupidMQ\Queue\QueueInterface;
 use CoG\StupidMQ\Message\MessageInterface;
+use CoG\StupidMQBundle\Event\StupidMQErrorEvent;
+use CoG\StupidMQBundle\Event\StupidMQEvents;
 use CoG\StupidMQBundle\Feeback\Feedback;
 use CoG\StupidMQBundle\Worker\WorkerInterface;
 use CoG\StupidMQBundle\Logger\AbstractLogger;
@@ -22,11 +24,13 @@ class SimpleRunner extends AbstractLogger implements RunnerInterface
 {
     protected $workers;
     protected $queues;
+    protected $eventDispatcher;
 
-    public function __construct()
+    public function __construct($eventDispatcher)
     {
         $this->workers = array();
         $this->queues = array();
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function addWorker(WorkerInterface $worker)
@@ -66,7 +70,8 @@ class SimpleRunner extends AbstractLogger implements RunnerInterface
                     $queue->feedback($message_id, $feedback->getState(), $feedback->getMessage());
 
                 } catch (\Exception $ex) {
-                    $queue->feedback($message_id, MessageInterface::STATE_ERROR, $ex->getMessage());
+                    $messageFeedback = $queue->feedback($message_id, MessageInterface::STATE_ERROR, $ex->getMessage());
+                    $this->eventDispatcher->dispatch(StupidMQEvents::STUPIDMQ_ERROR, new StupidMQErrorEvent($messageFeedback));
                 }
 
                 restore_error_handler();
