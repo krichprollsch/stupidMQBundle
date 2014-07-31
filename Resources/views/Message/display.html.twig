@@ -53,10 +53,10 @@
                                 {{ message.feedback | slice(0, 40) }}{{ (message.feedback | length) > 40 ? '...' : '' }}
                             </div>
                             <div class="col-sm-2">
-                                <em> <strong> Duration </strong> : {{ message.updated_at }} </em>
+                                <em> <strong> Duration </strong> : <span class="messageDuration">{{ message.updated_at }}</span> </em>
                             </div>
                             <div class="col-sm-2">
-                                <em title="{{ message.created_at }}"> <strong> Sent </strong> : {{ message.created_at }} </em>
+                                <em class="messageCreatedAt" title="{{ message.created_at }}"> <strong> Sent </strong> : <span>{{ message.created_at }}</span> </em>
                             </div>
                             <div class="col-sm-1">
                                 <div class="pull-right">
@@ -107,6 +107,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
     <script src="{{ asset('bundles/cogstupidmq/js/main.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
