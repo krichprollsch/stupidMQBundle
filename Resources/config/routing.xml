@@ -24,5 +24,6 @@
         <requirement key="_method">GET</requirement>
         <requirement key="queue">(\w|.)+</requirement>
         <requirement key="_format">json</requirement>
+        <option key="expose">true</option>
     </route>
 </routes>

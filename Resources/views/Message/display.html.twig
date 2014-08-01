@@ -44,12 +44,12 @@
                     <div class="title-area">
                         <div class="row">
                             <div class="col-sm-1">
-                                #{{ message.id }}
+                                #<span class="messageId">{{ message.id }}</span>
                             </div>
                             <div class="col-sm-1">
-                                <span class="label label-{{ message | state_class }}">{{ message.state }}</span>
+                                <span class="label label-{{ message | state_class }} messageState">{{ message.state }}</span>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-5 messageFeedback">
                                 {{ message.feedback | slice(0, 40) }}{{ (message.feedback | length) > 40 ? '...' : '' }}
                             </div>
                             <div class="col-sm-2">
@@ -70,7 +70,7 @@
                         <div class="row">
                             <div class="col-xs-8">
                                 <h4> Feedback : </h4>
-                                <code>{{ message.feedback }}</code> <br />
+                                <code class="messageFeedbackFull">{{ message.feedback }}</code> <br />
                             </div>
 
                             {% if message.state == 'error' %}
