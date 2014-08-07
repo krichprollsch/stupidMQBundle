@@ -9,6 +9,8 @@ namespace CoG\StupidMQBundle\Watcher;
 
 use CoG\StupidMQ\Queue\QueueInterface;
 use CoG\StupidMQ\Exception\NoResultException;
+use CoG\StupidMQBundle\Event\StupidMQEvents;
+use CoG\StupidMQBundle\Event\StupidMQFatalErrorEvent;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 use CoG\StupidMQ\Message\MessageInterface;
@@ -24,12 +26,14 @@ class ProcessWatcher extends AbstractWatcher
     protected $cwd;
     protected $command;
     protected $processes;
+    protected $eventDispatcher;
 
-    public function __construct( $cwd, $command ) {
+    public function __construct( $cwd, $command, $eventDispatcher ) {
         $this->queues = array();
         $this->command = $command;
         $this->cwd = $this->cwd;
         $this->processes = array();
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function addQueue( QueueInterface $queue ) {
@@ -61,7 +65,6 @@ class ProcessWatcher extends AbstractWatcher
             }
 
             $this->processLoop();
-
         } while( true );
     }
 
@@ -146,8 +149,9 @@ class ProcessWatcher extends AbstractWatcher
                 }
             } catch ( RuntimeException $ex ) {
                 unset($this->processes[$key]);
-                $queue->feedback($message->getId(), MessageInterface::STATE_ERROR, $ex->getMessage());
+                $messageFeedback = $queue->feedback($message->getId(), MessageInterface::STATE_ERROR, $ex->getMessage());
                 $this->log(sprintf('Exception %s for message %s', $ex->getMessage(), $message->getId()), 'err');
+                $this->eventDispatcher->dispatch(StupidMQEvents::STUPIDMQ_FATAL_ERROR, new StupidMQFatalErrorEvent($messageFeedback));
             }
         }
 

@@ -25,6 +25,7 @@
             <argument type="service" id="cog_stupidmq.adapter" />
         </service>
         <service id="cog_stupidmq.runner" class="%cog_stupidmq.runner.class%">
+            <argument type="service" id="debug.event_dispatcher" />
             <call method="setLogger">
                 <argument type="service" id="logger" />
             </call>
@@ -35,6 +36,7 @@
         <service id="cog_stupidmq.watcher" class="%cog_stupidmq.watcher.class%">
             <argument>%kernel.root_dir%</argument>
             <argument>%cog_stupidmq.runner.command%</argument>
+            <argument type="service" id="debug.event_dispatcher" />
             <call method="setLogger">
                 <argument type="service" id="logger" />
             </call>
