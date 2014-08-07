@@ -1,0 +1,16 @@
+.content-area {
+    display: none;
+}
+
+.title-area {
+    cursor: pointer;
+}
+
+#message-list {
+    width: 90%;
+    margin: auto;
+}
+
+.text-align-center {
+    text-align: center;
+}

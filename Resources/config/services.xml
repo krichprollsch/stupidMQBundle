@@ -43,5 +43,8 @@
             </call>
         </service>
         <service id="cog_stupidmq.informer" class="%cog_stupidmq.informer.class%"/>
+        <service id="cog.twig.cog_extension" class="CoG\StupidMQBundle\Twig\CoGExtension">
+            <tag name="twig.extension" />
+        </service>
     </services>
 </container>

@@ -1,0 +1,26 @@
+{% macro previousButton(queue, first, limit) %}
+    {% set previousUrl =
+        first - limit < 0 ?
+            null :
+            path(
+                'cog_stupidmq_display', {
+                    'queue' : queue,
+                    'first' : first - limit,
+                    'limit' : limit
+                }
+            )
+    %}
+    <li class="previous {{ previousUrl is null ? 'disabled' : '' }}"><a href="{{ previousUrl }}">&larr; Previous</a></li>
+{% endmacro %}
+
+{% macro nextButton(queue, first, limit) %}
+    {% set nextUrl = path(
+                'cog_stupidmq_display', {
+                    'queue' : queue,
+                    'first' : first + limit,
+                    'limit' : limit
+                }
+            )
+    %}
+    <li class="next"><a href="{{ nextUrl }}">Next &rarr;</a></li>
+{% endmacro %}
