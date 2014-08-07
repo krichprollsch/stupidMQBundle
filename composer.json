@@ -16,7 +16,7 @@
         "symfony/framework-bundle": "2.*",
         "symfony/console": "2.*",
         "symfony/process": "2.*",
-        "jms/serializer": "0.13.*",
+        "jms/serializer": ">=0.11.0",
 		"cog/stupidmq": "1.0.*",
         "friendsofsymfony/jsrouting-bundle": "1.*"
     },
