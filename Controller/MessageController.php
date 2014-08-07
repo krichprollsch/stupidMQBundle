@@ -34,12 +34,12 @@ class MessageController extends ContainerAware
     {
         try {
             $informer = $this->container->get('cog_stupidmq.informer');
+            $queueNames = array_keys($informer->getQueues());
+            $queue = $queue ? : $queueNames[0];
             $first = $request->query->get('first');
             $first = (int)$first == $first && (int)$first > 0 ? $request->query->get('first') : 0;
             $limit = $request->query->get('limit') ? : 10;
             $messages = $informer->getMessagesByInterval($queue, $first, $limit);
-
-            $queueNames = array_keys($informer->getQueues());
 
             return $this->container->get('templating')->renderResponse(
                 'CoGStupidMQBundle:Message:display.html.twig',
