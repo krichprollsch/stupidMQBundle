@@ -6,6 +6,7 @@
 
     <route id="cog_stupidmq_display" pattern="/display/{queue}">
         <default key="_controller">CoGStupidMQBundle:Message:display</default>
+        <default key="queue">0</default>
         <requirement key="_method">GET</requirement>
         <requirement key="queue">(\w|.)+</requirement>
     </route>

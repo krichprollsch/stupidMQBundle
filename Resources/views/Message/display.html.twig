@@ -15,17 +15,19 @@
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">StupidMQ</a>
+                <a class="navbar-brand" href="{{ path('cog_stupidmq_display') }}">StupidMQ</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-8">
                 <ul class="nav navbar-nav">
                     {% for queueName in queueNames %}
-                        <li class="{{ app.request.get('queue') == queueName ? 'active' : '' }}">
+                        <li class="{{ queue == queueName ? 'active' : '' }}">
                             <a href="{{ path('cog_stupidmq_display', { 'queue' : queueName }) }}">
                                 {{ queueName }}
                             </a>
                         </li>
+                    {% else %}
+                        <li> <a>No queue found.</a> </li>
                     {% endfor %}
                 </ul>
             </div>
